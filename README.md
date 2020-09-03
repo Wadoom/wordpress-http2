@@ -108,13 +108,12 @@ services:
       - certbot-etc:/etc/letsencrypt
       - wordpress:/var/www/html
     command: certonly --apache --webroot-path=/var/www/html --email w4d00m@gmail.com --agree-tos --no-eff-email --force-renewal -d website.mocstage.com -d www.website.mocstage.com
-
-
 volumes:
   dbdata:
   wordpress:
   certbot:
 ```
+
 1. Run `docker-compose up -d` and check `docker-compose ps` certbot service status it must have **exit status 0**
 2. Rewrite the **./apache/000-default.conf** with next:
    ```
@@ -134,19 +133,18 @@ volumes:
 	        SSLCertificateKeyFile /etc/letsencrypt/live/{your_domain_here}/privkey.pem
 		SSLCertificateChainFile /etc/letsencrypt/live/{your_domain_here}/chain.pem 
 	</VirtualHost>
-
 	SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
 	SSLCipherSuite ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
 	SSLHonorCipherOrder on
 	SSLCompression off
 	SSLSessionTickets off
-
 	SSLUseStapling on
 	SSLStaplingResponderTimeout 5
 	SSLStaplingReturnResponderErrors off
 	SSLStaplingCache shmcb:/var/run/ocsp(128000)
-```
-	**P.S. Don't forgret change values in {} brakets to own!**
+   ```
+
+**P.S. Don't forgret change values in {} brakets to own!**
 3. Restart wordpress contrainer: `docker-compose restart wordpress`
 4. If the website work fine uncomment `Redirect parament` for redirect from http to https.
 5. Add this script to cron for ssl renew:
