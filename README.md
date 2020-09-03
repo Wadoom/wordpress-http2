@@ -107,7 +107,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - wordpress:/var/www/html
-    command: certonly --apache --webroot-path=/var/www/html --email {your_email} --agree-tos --no-eff-email --force-renewal -d website.mocstage.com -d www.website.mocstage.com
+    command: certonly --webroot --webroot-path=/var/www/html --email {your_email} --agree-tos --no-eff-email --force-renewal -d {your_domain_here}
 volumes:
   dbdata:
   wordpress:
@@ -144,19 +144,17 @@ volumes:
 	SSLStaplingCache shmcb:/var/run/ocsp(128000)
    ```
 
-**P.S. Don't forgret change values in {} brakets to own!**
+	**P.S. Don't forgret change values in {} brakets to own!**
 
 3. Restart wordpress contrainer: `docker-compose restart wordpress`
 4. If the website work fine uncomment `Redirect parament` for redirect from http to https.
 5. Add this script to cron for ssl renew:
 
-```
-#!/bin/bash
-
-COMPOSE="/usr/local/bin/docker-compose --no-ansi"
-DOCKER="/usr/bin/docker"
-
-cd {full_path_to_folder_with_docker-compose.yml}
-$COMPOSE run certbot renew --dry-run && $COMPOSE kill -s SIGHUP wordpress
-$DOCKER system prune -af
-```
+	```
+	#!/bin/bash
+	COMPOSE="/usr/local/bin/docker-compose --no-ansi"
+	DOCKER="/usr/bin/docker"
+	cd {full_path_to_folder_with_docker-compose.yml}
+	$COMPOSE run certbot renew --dry-run && $COMPOSE kill -s SIGHUP wordpress
+	$DOCKER system prune -af
+	```
