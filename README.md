@@ -145,9 +145,11 @@ volumes:
    ```
 
 **P.S. Don't forgret change values in {} brakets to own!**
+
 3. Restart wordpress contrainer: `docker-compose restart wordpress`
 4. If the website work fine uncomment `Redirect parament` for redirect from http to https.
 5. Add this script to cron for ssl renew:
+
 ```
 #!/bin/bash
 
