@@ -107,7 +107,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - wordpress:/var/www/html
-    command: certonly --apache --webroot-path=/var/www/html --email w4d00m@gmail.com --agree-tos --no-eff-email --force-renewal -d website.mocstage.com -d www.website.mocstage.com
+    command: certonly --apache --webroot-path=/var/www/html --email {your_email} --agree-tos --no-eff-email --force-renewal -d website.mocstage.com -d www.website.mocstage.com
 volumes:
   dbdata:
   wordpress:
