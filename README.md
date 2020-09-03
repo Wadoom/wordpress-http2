@@ -18,4 +18,8 @@ If the WORDPRESS_DB_NAME specified does not already exist on the given MySQL ser
 
 
 ##How to use
+### Simple run without DB and volumes
 
+```
+docker run -d -p 80:80 w4d00m/wordpress-http2
+```
