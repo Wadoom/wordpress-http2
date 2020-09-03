@@ -5,17 +5,17 @@ ENV APACHE_ENVVARS $APACHE_CONFDIR/envvars
 ENV PHP_INI_DIR /etc/php/7.4/fpm
 
 RUN set -eux; \
-			export DEBIAN_FRONTEND="noninteractive"; \
+		export DEBIAN_FRONTEND="noninteractive"; \
         	apt-get update; \
         	apt-get install -y --no-install-recommends \
         	php-fpm \
         	binutils \
         	libapache2-mod-php \
         	libfreetype6-dev \
-            libjpeg-dev \
-            libmagickwand-dev \
-            libpng-dev \
-            libzip-dev \
+		libjpeg-dev \
+		libmagickwand-dev \
+		libpng-dev \
+		libzip-dev \
         	php-mysql \
         	php-gd \
         	php-imagick \
@@ -64,7 +64,7 @@ RUN set -eux; \
 
 RUN set -eux; \
 		a2dismod php7.4 mpm_prefork;\
-		a2enmod proxy_fcgi setenvif mpm_event http2 ssl;\
+		a2enmod headers proxy_fcgi setenvif mpm_event http2 ssl;\
 		a2enconf php7.4-fpm 
 
 COPY docker-php-ext-enable /usr/local/bin/
