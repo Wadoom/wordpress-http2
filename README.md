@@ -111,7 +111,7 @@ services:
 volumes:
   dbdata:
   wordpress:
-  certbot:
+  certbot-etc:
 ```
 
 1. Run `docker-compose up -d` and check `docker-compose ps` certbot service status it must have **exit status 0**
