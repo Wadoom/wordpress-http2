@@ -45,6 +45,19 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		group="$(id -g)"
 	fi
 
+	if [ ! -e /etc/apache2/sites-enabled/000-default.conf ]; then
+		cat > /etc/apache2/sites-enabled/000-default.conf <<-'EOF'
+			<VirtualHost *:80>
+			#ServerName www.example.com
+			ServerAdmin webmaster@localhost
+			DocumentRoot /var/www/html
+			ErrorLog ${APACHE_LOG_DIR}/error.log
+			CustomLog ${APACHE_LOG_DIR}/access.log combined
+			</VirtualHost>
+	
+		EOF
+	fi
+
 	if [ ! -e index.php ] && [ ! -e wp-includes/version.php ]; then
 		# if the directory exists and WordPress doesn't appear to be installed AND the permissions of it are root:root, let's chown it (likely a Docker-created directory)
 		if [ "$(id -u)" = '0' ] && [ "$(stat -c '%u:%g' .)" = '0:0' ]; then
@@ -99,18 +112,6 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 			chown "$user:$group" .htaccess
 		fi
 	fi
-	if [ ! -e /etc/apache2/sites-enabled/000-default.conf ]; then
-       cat > /etc/apache2/sites-enabled/000-default.conf <<-'EOF'
-		    <VirtualHost *:80>
-            #ServerName www.example.com
-	        ServerAdmin webmaster@localhost
-            DocumentRoot /var/www/html
-            ErrorLog ${APACHE_LOG_DIR}/error.log
-            CustomLog ${APACHE_LOG_DIR}/access.log combined
-            </VirtualHost> 
-        EOF
-    fi
-
 	# allow any of these "Authentication Unique Keys and Salts." to be specified via
 	# environment variables with a "WORDPRESS_" prefix (ie, "WORDPRESS_AUTH_KEY")
 	uniqueEnvs=(
