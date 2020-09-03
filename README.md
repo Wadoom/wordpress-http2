@@ -99,7 +99,7 @@ services:
       - certbot-etc:/etc/letsencrypt
       - ./apache:/etc/apache2/sites-enabled
       
-    certbot:
+  certbot:
     depends_on:
       - wordpress
     image: certbot/certbot
